@@ -1,0 +1,499 @@
+[
+  {
+    "id": "quick-python-venv",
+    "scenario": "quick",
+    "query": "Python virtual environment command quick reference",
+    "expected_domains": ["docs.python.org"],
+    "expected_terms": ["venv", "Python"]
+  },
+  {
+    "id": "quick-git-rebase-abort",
+    "scenario": "quick",
+    "query": "Git rebase abort command quick reference",
+    "expected_domains": ["git-scm.com"],
+    "expected_terms": ["git", "rebase"]
+  },
+  {
+    "id": "quick-sqlite-index",
+    "scenario": "quick",
+    "query": "SQLite create index syntax quick reference",
+    "expected_domains": ["sqlite.org"],
+    "expected_terms": ["SQLite", "index"]
+  },
+  {
+    "id": "quick-docker-compose-env",
+    "scenario": "quick",
+    "query": "Docker Compose environment variable quick reference",
+    "expected_domains": ["docs.docker.com"],
+    "expected_terms": ["Docker", "environment"]
+  },
+  {
+    "id": "quick-javascript-map",
+    "scenario": "quick",
+    "query": "JavaScript Array map quick reference",
+    "expected_domains": ["developer.mozilla.org"],
+    "expected_terms": ["Array", "map"]
+  },
+  {
+    "id": "quick-spanish-ssh-copy",
+    "scenario": "quick",
+    "query": "comando SSH copiar archivo referencia rápida",
+    "expected_terms": ["SSH", "scp"]
+  },
+  {
+    "id": "quick-japanese-python-regex",
+    "scenario": "quick",
+    "query": "Python 正規表現 クイックリファレンス",
+    "expected_domains": ["docs.python.org"],
+    "expected_terms": ["Python", "正規表現"]
+  },
+  {
+    "id": "quick-chinese-git-conflict",
+    "scenario": "quick",
+    "query": "Git 合并冲突 快速处理 命令",
+    "expected_terms": ["Git", "冲突"]
+  },
+  {
+    "id": "web-openai-structured-outputs",
+    "scenario": "web",
+    "query": "OpenAI API structured outputs guide",
+    "expected_domains": ["developers.openai.com"],
+    "expected_terms": ["structured", "outputs"]
+  },
+  {
+    "id": "web-python-pyproject",
+    "scenario": "web",
+    "query": "Python pyproject.toml build system specification",
+    "expected_domains": ["packaging.python.org", "docs.python.org"],
+    "expected_terms": ["pyproject.toml", "build-system"]
+  },
+  {
+    "id": "web-rust-async",
+    "scenario": "web",
+    "query": "Rust async await ownership explanation",
+    "expected_domains": ["doc.rust-lang.org"],
+    "expected_terms": ["async", "ownership"]
+  },
+  {
+    "id": "web-kubernetes-ingress",
+    "scenario": "web",
+    "query": "Kubernetes Ingress controller concepts",
+    "expected_domains": ["kubernetes.io"],
+    "expected_terms": ["Ingress", "controller"]
+  },
+  {
+    "id": "web-postgresql-index-types",
+    "scenario": "web",
+    "query": "PostgreSQL index types comparison",
+    "expected_domains": ["postgresql.org"],
+    "expected_terms": ["PostgreSQL", "index"]
+  },
+  {
+    "id": "web-french-rgpd",
+    "scenario": "web",
+    "query": "RGPD principes protection des données explication",
+    "expected_domains": ["cnil.fr"],
+    "expected_terms": ["RGPD", "données"]
+  },
+  {
+    "id": "web-german-renewables",
+    "scenario": "web",
+    "query": "erneuerbare Energien Speicher Technologien Überblick",
+    "expected_terms": ["Energien", "Speicher"]
+  },
+  {
+    "id": "web-japanese-overfitting",
+    "scenario": "web",
+    "query": "機械学習 過学習 対策 解説",
+    "expected_terms": ["機械学習", "過学習"]
+  },
+  {
+    "id": "official-python-venv",
+    "scenario": "official",
+    "query": "Python venv official documentation",
+    "expected_domains": ["docs.python.org"],
+    "expected_terms": ["venv", "virtual environment"]
+  },
+  {
+    "id": "official-kubernetes-api",
+    "scenario": "official",
+    "query": "Kubernetes API concepts official documentation",
+    "expected_domains": ["kubernetes.io"],
+    "expected_terms": ["API", "Kubernetes"]
+  },
+  {
+    "id": "official-rust-ownership",
+    "scenario": "official",
+    "query": "Rust ownership official book",
+    "expected_domains": ["doc.rust-lang.org"],
+    "expected_terms": ["ownership", "Rust"]
+  },
+  {
+    "id": "official-postgresql-select",
+    "scenario": "official",
+    "query": "PostgreSQL SELECT official documentation",
+    "expected_domains": ["postgresql.org"],
+    "expected_terms": ["SELECT", "PostgreSQL"]
+  },
+  {
+    "id": "official-openai-responses",
+    "scenario": "official",
+    "query": "OpenAI Responses API official documentation",
+    "expected_domains": ["developers.openai.com"],
+    "expected_terms": ["Responses", "API"]
+  },
+  {
+    "id": "official-mdn-fetch",
+    "scenario": "official",
+    "query": "Fetch API official MDN documentation",
+    "expected_domains": ["developer.mozilla.org"],
+    "expected_terms": ["Fetch", "API"]
+  },
+  {
+    "id": "official-japanese-nodejs",
+    "scenario": "official",
+    "query": "Node.js 日本語 公式ドキュメント",
+    "expected_domains": ["nodejs.org"],
+    "expected_terms": ["Node.js", "公式"]
+  },
+  {
+    "id": "official-chinese-ai-rules",
+    "scenario": "official",
+    "query": "生成式人工智能 服务管理 暂行办法 官方",
+    "expected_domains": ["gov.cn", "cac.gov.cn"],
+    "expected_terms": ["生成式人工智能", "管理"]
+  },
+  {
+    "id": "fresh-python-release-notes",
+    "scenario": "fresh",
+    "query": "Python latest release notes",
+    "expected_domains": ["python.org"],
+    "expected_terms": ["Python", "release"],
+    "freshness": "month"
+  },
+  {
+    "id": "fresh-kubernetes-release",
+    "scenario": "fresh",
+    "query": "Kubernetes latest release notes",
+    "expected_domains": ["kubernetes.io"],
+    "expected_terms": ["Kubernetes", "release"],
+    "freshness": "month"
+  },
+  {
+    "id": "fresh-rust-release",
+    "scenario": "fresh",
+    "query": "Rust latest release announcement",
+    "expected_domains": ["blog.rust-lang.org"],
+    "expected_terms": ["Rust", "release"],
+    "freshness": "month"
+  },
+  {
+    "id": "fresh-postgresql-release",
+    "scenario": "fresh",
+    "query": "PostgreSQL latest release notes",
+    "expected_domains": ["postgresql.org"],
+    "expected_terms": ["PostgreSQL", "release"],
+    "freshness": "month"
+  },
+  {
+    "id": "fresh-openai-platform",
+    "scenario": "fresh",
+    "query": "OpenAI platform latest announcement",
+    "expected_domains": ["openai.com"],
+    "expected_terms": ["OpenAI", "platform"],
+    "freshness": "week"
+  },
+  {
+    "id": "fresh-spanish-cybersecurity",
+    "scenario": "fresh",
+    "query": "últimas noticias de ciberseguridad en español",
+    "expected_terms": ["ciberseguridad", "noticias"],
+    "freshness": "week"
+  },
+  {
+    "id": "fresh-japanese-ai-tools",
+    "scenario": "fresh",
+    "query": "最新 AI 開発者ツール 発表",
+    "expected_terms": ["AI", "開発者"],
+    "freshness": "week"
+  },
+  {
+    "id": "fresh-chinese-cloud-projects",
+    "scenario": "fresh",
+    "query": "最新 云计算 开源项目 发布",
+    "expected_terms": ["云计算", "开源"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-ai-policy",
+    "scenario": "news",
+    "query": "artificial intelligence policy news",
+    "expected_terms": ["artificial intelligence", "policy"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-cybersecurity-incidents",
+    "scenario": "news",
+    "query": "cybersecurity incident news",
+    "expected_terms": ["cybersecurity", "incident"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-climate-technology",
+    "scenario": "news",
+    "query": "climate technology news",
+    "expected_terms": ["climate", "technology"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-semiconductors",
+    "scenario": "news",
+    "query": "semiconductor industry news",
+    "expected_terms": ["semiconductor", "industry"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-space-exploration",
+    "scenario": "news",
+    "query": "space exploration news",
+    "expected_terms": ["space", "exploration"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-chinese-robotics",
+    "scenario": "news",
+    "query": "机器人 产业 新闻",
+    "expected_terms": ["机器人", "产业"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-spanish-digital-economy",
+    "scenario": "news",
+    "query": "noticias de economía digital",
+    "expected_terms": ["economía", "digital"],
+    "freshness": "week"
+  },
+  {
+    "id": "news-korean-batteries",
+    "scenario": "news",
+    "query": "배터리 산업 뉴스",
+    "expected_terms": ["배터리", "산업"],
+    "freshness": "week"
+  },
+  {
+    "id": "code-ripgrep-repository",
+    "scenario": "code",
+    "query": "GitHub repository BurntSushi ripgrep",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["ripgrep", "GitHub"]
+  },
+  {
+    "id": "code-fastapi-lifespan-source",
+    "scenario": "code",
+    "query": "FastAPI lifespan implementation source GitHub",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["FastAPI", "lifespan"]
+  },
+  {
+    "id": "code-tokio-scheduler-issue",
+    "scenario": "code",
+    "query": "tokio-rs tokio scheduler issue GitHub",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["tokio", "scheduler"]
+  },
+  {
+    "id": "code-flask-request-source",
+    "scenario": "code",
+    "query": "pallets flask request source implementation GitHub",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["flask", "request"]
+  },
+  {
+    "id": "code-typescript-compiler-repository",
+    "scenario": "code",
+    "query": "microsoft TypeScript compiler repository GitHub",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["TypeScript", "compiler"]
+  },
+  {
+    "id": "code-kubectl-issue",
+    "scenario": "code",
+    "query": "kubernetes kubectl issue GitHub",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["kubectl", "issue"]
+  },
+  {
+    "id": "code-japanese-serde-repository",
+    "scenario": "code",
+    "query": "Rust serde GitHub リポジトリ",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["serde", "GitHub"]
+  },
+  {
+    "id": "code-chinese-langchain-issue",
+    "scenario": "code",
+    "query": "LangChain GitHub 仓库 issue",
+    "expected_domains": ["github.com"],
+    "expected_terms": ["LangChain", "issue"]
+  },
+  {
+    "id": "academic-rag-evaluation",
+    "scenario": "academic",
+    "query": "retrieval augmented generation evaluation benchmark paper",
+    "expected_domains": ["arxiv.org", "aclanthology.org"],
+    "expected_terms": ["retrieval", "evaluation"]
+  },
+  {
+    "id": "academic-rrf",
+    "scenario": "academic",
+    "query": "reciprocal rank fusion information retrieval paper",
+    "expected_terms": ["reciprocal rank fusion", "information retrieval"]
+  },
+  {
+    "id": "academic-transformer",
+    "scenario": "academic",
+    "query": "Attention Is All You Need paper",
+    "expected_domains": ["arxiv.org"],
+    "expected_terms": ["attention", "transformer"]
+  },
+  {
+    "id": "academic-swebench",
+    "scenario": "academic",
+    "query": "SWE-bench coding agents benchmark paper",
+    "expected_domains": ["arxiv.org", "openreview.net"],
+    "expected_terms": ["SWE-bench", "benchmark"]
+  },
+  {
+    "id": "academic-graph-neural-networks",
+    "scenario": "academic",
+    "query": "graph neural networks survey paper",
+    "expected_domains": ["arxiv.org"],
+    "expected_terms": ["graph", "neural networks"]
+  },
+  {
+    "id": "academic-differential-privacy",
+    "scenario": "academic",
+    "query": "differential privacy foundational paper",
+    "expected_terms": ["differential privacy", "privacy"]
+  },
+  {
+    "id": "academic-french-nlp-evaluation",
+    "scenario": "academic",
+    "query": "traitement automatique du langage évaluation article scientifique",
+    "expected_terms": ["langage", "évaluation"]
+  },
+  {
+    "id": "academic-japanese-robotics",
+    "scenario": "academic",
+    "query": "ロボティクス 強化学習 論文",
+    "expected_terms": ["ロボティクス", "強化学習"]
+  },
+  {
+    "id": "cn-generative-ai-policy",
+    "scenario": "cn",
+    "query": "中国 生成式人工智能 政策 官方",
+    "expected_domains": ["gov.cn", "cac.gov.cn"],
+    "expected_terms": ["生成式人工智能", "政策"]
+  },
+  {
+    "id": "cn-baidu-cloud-search-api",
+    "scenario": "cn",
+    "query": "百度智能云 搜索 API 官方文档",
+    "expected_domains": ["cloud.baidu.com"],
+    "expected_terms": ["百度", "搜索"]
+  },
+  {
+    "id": "cn-alibaba-oss-api",
+    "scenario": "cn",
+    "query": "阿里云 OSS API 官方文档",
+    "expected_domains": ["alibabacloud.com"],
+    "expected_terms": ["OSS", "API"]
+  },
+  {
+    "id": "cn-huawei-function-workflow",
+    "scenario": "cn",
+    "query": "华为云 函数工作流 官方文档",
+    "expected_domains": ["huaweicloud.com"],
+    "expected_terms": ["函数", "工作流"]
+  },
+  {
+    "id": "cn-pytorch-tensor-tutorial",
+    "scenario": "cn",
+    "query": "PyTorch 中文 文档 张量 教程",
+    "expected_domains": ["pytorch.org"],
+    "expected_terms": ["PyTorch", "张量"]
+  },
+  {
+    "id": "cn-kubernetes-deployment",
+    "scenario": "cn",
+    "query": "Kubernetes 中文 文档 部署 指南",
+    "expected_domains": ["kubernetes.io"],
+    "expected_terms": ["Kubernetes", "部署"]
+  },
+  {
+    "id": "cn-data-security-law",
+    "scenario": "cn",
+    "query": "数据安全法 官方 全文",
+    "expected_domains": ["gov.cn"],
+    "expected_terms": ["数据安全法", "全文"]
+  },
+  {
+    "id": "cn-python-type-hints",
+    "scenario": "cn",
+    "query": "Python 中文 类型注解 教程",
+    "expected_domains": ["docs.python.org"],
+    "expected_terms": ["Python", "类型注解"]
+  },
+  {
+    "id": "deep-coding-agent-security",
+    "scenario": "deep",
+    "query": "Compare coding agent sandbox security and tool-use tradeoffs",
+    "expected_domains": ["developers.openai.com", "docs.anthropic.com"],
+    "expected_terms": ["sandbox", "tool"]
+  },
+  {
+    "id": "deep-rag-evaluation",
+    "scenario": "deep",
+    "query": "Compare RAG retrieval evaluation methods and tradeoffs",
+    "expected_terms": ["RAG", "retrieval"]
+  },
+  {
+    "id": "deep-kubernetes-platform",
+    "scenario": "deep",
+    "query": "Compare Kubernetes deployment strategies for internal platforms",
+    "expected_domains": ["kubernetes.io"],
+    "expected_terms": ["Kubernetes", "deployment"]
+  },
+  {
+    "id": "deep-postgresql-indexing",
+    "scenario": "deep",
+    "query": "Compare PostgreSQL indexing strategies for mixed workloads",
+    "expected_domains": ["postgresql.org"],
+    "expected_terms": ["PostgreSQL", "index"]
+  },
+  {
+    "id": "deep-opentelemetry-observability",
+    "scenario": "deep",
+    "query": "Compare OpenTelemetry observability implementation approaches",
+    "expected_domains": ["opentelemetry.io"],
+    "expected_terms": ["OpenTelemetry", "observability"]
+  },
+  {
+    "id": "deep-search-fusion",
+    "scenario": "deep",
+    "query": "Compare web search ranking fusion and diversity tradeoffs",
+    "expected_terms": ["ranking", "diversity"]
+  },
+  {
+    "id": "deep-spanish-cloud-migration",
+    "scenario": "deep",
+    "query": "Comparar estrategias de migración a la nube y sus ventajas",
+    "expected_terms": ["migración", "nube"]
+  },
+  {
+    "id": "deep-chinese-inference-cost",
+    "scenario": "deep",
+    "query": "对比 大模型 推理 成本 延迟 优化 方案",
+    "expected_terms": ["推理", "延迟"]
+  }
+]
