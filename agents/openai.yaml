@@ -1,0 +1,4 @@
+interface:
+  display_name: "Adaptive Search"
+  short_description: "Default multi-source search for Codex"
+  default_prompt: "Use $adaptive-search as the default external search; use conditional cross-provider follow-ups, never block a new search on historical task usage, and verify only core sources."

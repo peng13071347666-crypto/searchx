@@ -1,27 +1,8 @@
-# Local environments
-.venv/
-venv/
-env/
-
-# Python caches and build artifacts
 __pycache__/
 *.py[cod]
-*.egg-info/
-build/
-dist/
-.eggs/
-
-# Test and tooling caches
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-htmlcov/
-
-# Local OS/editor files
-.DS_Store
-.idea/
-.vscode/
-
-# Live benchmark reports may contain raw queries, URLs, and provider output.
+.venv/
+.env
+*.env
+.cache/
 reports/
+.DS_Store

@@ -1,137 +1,147 @@
-# SearchX
+# Adaptive Search
 
-SearchX is a JSON-oriented CLI for routing web searches and content extraction across configured providers. It can also show routes, make bounded research plans, collect descriptive evidence, benchmark providers, and generate route profiles.
+`adaptive-search` 是一个给 Codex 使用的默认外部搜索 Skill：通过本地
+Python CLI 直接调用多个搜索供应商，不依赖 MCP，也不依赖常驻服务。
 
-## Install
+它负责搜索发现、条件式交叉搜索、网页正文提取和上下文压缩。默认不使用
+Codex 原生 Web Search；网页抓取优先使用本地 HTTP 下载 + Trafilatura，只有
+遇到动态页面或本地提取失败时，才按顺序尝试其他提取器。
 
-Python 3.11 or later is required. From the project root:
+## 目录
+
+- `SKILL.md`：Codex Skill 的完整工作流和调用约束。
+- `scripts/search.py`：多供应商搜索路由器。
+- `scripts/fetch.py`：网页下载、正文提取、相关性压缩和缓存。
+- `requirements.txt`：本地正文提取依赖。
+- `agents/openai.yaml`：Codex Skill 元数据。
+- `config/default-policy.yaml`：当前默认搜索策略，不包含任何密钥。
+
+## 安装
+
+Python 3.11 或更高版本：
+
+```bash
+python3 -m pip install --user --break-system-packages -r requirements.txt
+```
+
+也可以在虚拟环境中安装：
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-# Setup: pip may contact its package index for missing build tooling.
-python -m pip install -e .
+python -m pip install -r requirements.txt
 ```
 
-On Windows PowerShell, use the launcher and the virtual-environment Scripts directory instead:
+在 Codex 中安装 Skill 时，将本仓库目录复制到：
 
-```powershell
-py -3 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -e .
+```text
+~/.codex/skills/adaptive-search/
 ```
 
-The installed command is `searchx`. Confirm the installation with `searchx --version`.
+如果要关闭 Codex 原生搜索，在 `~/.codex/config.toml` 中设置：
 
-## Credentials and local checks
+```toml
+web_search = "disabled"
+```
 
-Search providers need their own credentials. Configure them without placing a credential value in a shell command:
+修改后重启 Codex。
+
+## 密钥配置
+
+密钥只放在用户本机的私有文件或进程环境中，不要提交到 GitHub：
+
+```text
+~/.config/searchx/secrets.env
+```
+
+支持的变量名：
+
+```text
+BRAVE_API_KEY
+EXA_API_KEY
+TAVILY_API_KEY
+BAIDU_QIANFAN_API_KEY 或 BAIDU_API_KEY
+NEWS_API_KEY
+GITHUB_API_KEY 或 GITHUB_TOKEN
+FIRECRAWL_API_KEY
+SERPER_API_KEY
+SEARXNG_URL（可选）
+```
+
+示例文件只写变量名，不写真实值。脚本会跳过未配置的供应商。
+
+## 使用
+
+搜索命令需要同时传入原始任务和搜索词：
 
 ```bash
-# Offline/local write: prompts do not echo input.
-searchx configure
-
-# Offline: shows only configured/not-configured booleans and local-file metadata.
-searchx doctor
+python3 scripts/search.py \
+  --task-query "目前最强的国产大模型是哪个" \
+  --query "目前最强的国产大模型是哪个" \
+  --depth auto
 ```
 
-`configure` stores known provider credentials in `~/.config/searchx/secrets.env` and attempts to make that file owner-readable/writable only. A process environment variable takes precedence over the local file. Supported variable names are `SERPER_API_KEY`, `BRAVE_API_KEY`, `TAVILY_API_KEY`, `EXA_API_KEY`, `NEWS_API_KEY`, `GITHUB_TOKEN`, `FIRECRAWL_API_KEY`, and `BAIDU_API_KEY`.
-
-Keep credential values out of Git, command history, issues, and shared logs. Do not add the local secrets file or benchmark output containing sensitive queries to a repository.
-
-## Offline commands
-
-These commands do not call a search or extraction provider:
+抓取选定网页：
 
 ```bash
-searchx doctor
-searchx explain-route "Python async patterns" --mode auto
-searchx research-plan "Compare Python async patterns" --domain docs.python.org --intensity adaptive
-searchx tune /path/to/valid-benchmark-report.json --output profiles/local.json
+python3 scripts/fetch.py \
+  --query "目前最强的国产大模型是哪个" \
+  --provider auto \
+  --max-pages 3 \
+  --max-chars 8000 \
+  --context-budget 16000 \
+  --url "https://example.com/article"
 ```
 
-`explain-route` shows the selected route. `research-plan` returns a bounded plan but does not execute it. `tune` reads a prior benchmark report and writes a profile locally.
+脚本输出 JSON，适合被 Codex Skill 或其他 Agent 调用。
 
-SearchX separates route `mode` from execution `intensity`. `mode` selects the
-source vertical; `intensity` controls how much of that route is executed:
+## 默认策略
 
-| Intensity | Policy |
-| --- | --- |
-| `quick` | Try providers one at a time and stop at the first usable result. |
-| `adaptive` | Start with one provider, then add complementary providers only for an evidence gap. This is the default. |
-| `deep` | Run primary and fallback stages within a hard budget. |
+完整策略见 [`config/default-policy.yaml`](config/default-policy.yaml)。核心规则：
 
-Use `--max-provider-calls N` and `--max-stages N` to set hard limits. Search
-responses include an `execution` object with stage metrics, evidence gaps, and a
-machine-readable `stop_reason`. The model or caller may choose intensity, but
-the engine enforces these limits.
+| 深度 | 搜索轮次 | 网页抓取 | 适用场景 |
+| --- | ---: | ---: | --- |
+| `quick` | 最多 2 个供应商，第二个条件触发 | 通常 0 页，精确措辞最多 1 页 | 简单事实、快速查询 |
+| `balanced` | 最多 2 个供应商，证据不足时补充 | 通常最多 2 页 | 普通研究、比较、近期信息 |
+| `deep` | 2 个起步，最多 3 个供应商 | 通常 2–3 页，真正比较最多 4 页 | 复杂研究、冲突核验 |
 
-## Command overview
+供应商按场景分工：
 
-| Command | Purpose and key options | Network / cost |
-| --- | --- | --- |
-| `configure` | Interactively save local credentials. | Offline; writes a local file. |
-| `doctor` | Show non-sensitive configuration status. | Offline. |
-| `explain-route QUERY` | Inspect routing. Supports `--mode`, `--freshness {day,week,month,year}`, repeatable `--domain`, and `--profile`. | Offline. |
-| `research-plan QUERY` | Produce an offline, bounded research workflow. Supports route options plus `--intensity`, `--max-provider-calls`, and `--max-stages`. | Offline. |
-| `provider PROVIDER QUERY` | Search exactly one provider. Supports `--limit`, `--mode`, `--freshness`, repeatable `--domain`, `--profile`, `--category`, `--depth`, and `--full-content`. | **Live / potentially billable.** |
-| `search QUERY` | Route and fuse a search. Supports route options, `--intensity`, `--max-provider-calls`, `--max-stages`, and `--all-fallbacks`. | **Live / potentially billable.** |
-| `multi-search QUERY [QUERY ...]` | Run routed searches in input order. It supports the search options; call/stage limits apply per query. | **Live / potentially billable.** |
-| `fetch URL` | Extract one page through `--provider {auto,firecrawl,tavily,exa}`; supports `--profile`. | **Live / potentially billable.** |
-| `evidence QUERY` | Search, then fetch selected results or repeatable explicit `--url` values. Supports the search options, `--fetch-limit`, and `--all-fallbacks`. | **Live / potentially billable.** |
-| `bench` | Benchmark configured providers. Supports `--cases`, repeatable `--scenario`, repeatable `--provider`, `--max-cases`, `--workers`, `--output`/`-o`, `--full`, and `--profile`. | **Live / potentially billable.** |
-| `tune REPORT` | Generate a profile from a valid benchmark report; `--input REPORT` is an alternative to the positional report, and `--output`/`-o` writes it. | Offline. |
+- 普通搜索：Brave、Exa、Tavily。
+- 语义搜索和研究：Exa、Tavily、Brave。
+- 中文政策和国内信息：百度、NewsAPI/Tavily、Brave。
+- 新闻：NewsAPI/Tavily、Brave、Exa。
+- GitHub：GitHub API；不足时再使用 Brave/Exa。
+- 明确要求 Google SERP 时才使用 Serper。
 
-Route modes are `auto`, `quick`, `web`, `fresh`, `news`, `code`, `academic`, `cn`, `official`, and `deep`. `bench --scenario` accepts the same scenario names; benchmark providers are `serper`, `brave`, `tavily`, `exa`, `newsapi`, `github`, `firecrawl`, and `baidu`.
+搜索历史账本只用于遥测和供应商轮换，不会阻断新搜索；实际限制由当前调用
+的深度和轮次控制。
 
-## Keep live work bounded
+## 网页提取与上下文控制
 
-`search` uses progressive execution by default: one primary provider, then
-additional primary/fallback stages only when fused usable results or distinct
-domain coverage is insufficient. `--all-fallbacks` forces all route stages
-within the resolved budget. `multi-search` repeats that bounded process per
-query. Start with a small result limit and explicit call/stage limits.
+静态网页的处理路径是：
 
-```bash
-# LIVE — sends provider requests and may consume quota or incur cost.
-searchx search "Python async patterns" --limit 3 --intensity adaptive --max-provider-calls 4 --max-stages 3
-
-# LIVE — search plus one selected URL; automatic extraction may try more than
-# one configured extraction provider until it finds usable content.
-searchx evidence "Python async patterns" --fetch-limit 1
-
-# LIVE — begin benchmarking with one provider, one case, and one worker.
-searchx bench --scenario quick --provider serper --max-cases 1 --workers 1 --output reports/quick-serper.json
+```text
+一次 HTTP 下载 → Trafilatura 正文提取 → 查询相关段落筛选 → 上下文预算限制
 ```
 
-`evidence --fetch-limit` defaults to `3` and limits URLs, not individual extraction-provider attempts. `bench` schedules only configured providers, but a broad case/provider selection can still create many live calls.
+网页不会把完整 HTML 直接送入模型。若长页面没有关键词命中，抓取器会返回
+标题/导语、少量标题和跨正文采样，最多为每页预算的三分之一且不超过 2,400
+字符，不会退化为整页返回。
 
-## Profiles and benchmarks
+如果页面只返回“加载中...”或“Loading...”等 JavaScript 占位内容，会被标记为
+提取失败，不会作为有效证据缓存。`auto` 模式随后才会尝试 Tavily、Exa 或
+Firecrawl 等高级提取路径。
 
-Use a benchmark report as an observed, time-bound snapshot rather than a universal provider ranking. Its quality measurements depend on the selected cases and their expected terms/domains; availability, result content, freshness metadata, latency, and provider behavior can change between runs.
+搜索结果缓存和网页压缩结果缓存均只保存在本机。当前默认缓存时间为：新闻
+5 分钟、中文搜索 2 小时、普通/研究搜索 6 小时、网页压缩结果 6 小时。
 
-Typical workflow:
+## 安全
 
-1. Run a deliberately small **live** `bench` command with `--output`.
-2. Run offline `tune REPORT --output PROFILE`.
-3. Inspect the resulting profile with offline `explain-route --profile PROFILE`, then pass `--profile PROFILE` to route-aware live commands (or set `SEARCHX_PROFILE`).
+- 不要把 API key 写进 Skill、配置策略、README、命令行参数或 Git 提交。
+- 不要提交 `secrets.env`、缓存数据库、日志和包含真实查询的 benchmark 报告。
+- provider 错误和缓存状态会写入 JSON，但不会输出认证头。
 
-Benchmark reports can include queries, results, URLs, and provider metadata. Review them before sharing or committing them.
+## 许可证
 
-## Evidence is not verification
-
-`evidence` and `research-plan` use `verification_status: "not_verified"`. Routed search results also carry descriptive evidence signals such as discovery-provider counts, agreement ratios, source domains, and timestamp parsing. These signals help prioritize review; they do not establish truth, provenance, completeness, or independent verification. Read the cited material and cross-check important claims yourself.
-
-## Security notes
-
-SearchX applies redaction and sanitization to CLI output and JSON files it writes, including known credential-shaped fields. Treat this as defense in depth, not an absolute guarantee: do not put secrets in queries or URLs, and inspect logs and artifacts before sharing them.
-
-The provider HTTP client rejects redirects instead of following them with request headers, reducing the chance of forwarding credentials to a redirect destination. This does not remove the need to trust configured providers or to protect data sent in queries and fetch URLs.
-
-## Tests
-
-After the editable install, run:
-
-```bash
-python -m unittest discover -s tests -v
-```
+本仓库当前未附带额外许可证文件。使用或再发布前，请根据你的需要补充许可证。
